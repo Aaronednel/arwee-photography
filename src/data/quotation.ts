@@ -3,7 +3,7 @@ export const quotationEventTypes = [
   'Prenup',
   'Birthday',
   'Debut',
-  'Corporate Events',
+  'Graduation',
   'Other Special Events',
 ] as const
 

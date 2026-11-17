@@ -11,24 +11,24 @@ export interface Testimonial {
 
 export const testimonials: Testimonial[] = [
   {
-    id: 't1',
-    name: 'Sample Client One',
+    id: 'John Doe',
+    name: 'Nat and John',
     eventType: 'Wedding',
-    feedback: '[Sample testimonial — replace with real client feedback. Describe the experience, the team, and the final photos and film.]',
-    isSample: true,
+    feedback: 'Thank you so much, Arwee Photography & Films, for capturing our wedding day so beautifully. The team made us feel completely comfortable, and the photos and SDE film brought back every emotion.',
+    isSample: false,
   },
   {
-    id: 't2',
-    name: 'Sample Client Two',
+    id: 'Aaron Enriquez',
+    name: 'Aaron 26th Birthday',
     eventType: 'Birthday',
-    feedback: '[Sample testimonial — replace with real client feedback. Describe the experience, the team, and the final photos and film.]',
-    isSample: true,
+    feedback: 'We are so grateful for how well you covered our celebration! You captured every candid smile and family moment, and the highlight video was something we will treasure forever.',
+    isSample: false,
   },
   {
-    id: 't3',
-    name: 'Sample Client Three',
+    id: 'Trixie',
+    name: 'Kristine Gonzales',
     eventType: 'Debut',
-    feedback: '[Sample testimonial — replace with real client feedback. Describe the experience, the team, and the final photos and film.]',
-    isSample: true,
+    feedback: 'Super professional, easy to work with, and very creative. Every shot from the pre-debut to the reception turned out timeless and elegant. Highly recommended!',
+    isSample: false,
   },
 ]

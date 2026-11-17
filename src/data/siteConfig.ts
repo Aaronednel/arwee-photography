@@ -49,7 +49,7 @@ export const siteConfig = {
 
   contact: {
     email: 'arweefilm@gmail.com',
-    phone: '+63 995 952 2288',
+    phone: '+63 906 834 5098',
     facebook: 'https://www.facebook.com/wheem1',
     facebookName: 'David Whee', 
     location: 'San Fernando, Pampanga',

@@ -5,13 +5,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import {
   AlertCircle,
   Aperture,
-  Briefcase,
   Cake,
   CalendarHeart,
   Camera,
   Check,
   CheckCircle2,
   Crown,
+  GraduationCap,
   Heart,
   Loader2,
   Navigation,
@@ -40,7 +40,7 @@ const eventIcons: Record<QuotationEventType, typeof Heart> = {
   Prenup: Sparkles,
   Birthday: Cake,
   Debut: Crown,
-  'Corporate Events': Briefcase,
+  Graduation: GraduationCap,
   'Other Special Events': CalendarHeart,
 }
 
@@ -518,7 +518,7 @@ export default function Quotation() {
                   )}
                 </button>
                 <p className="mt-3 text-center text-xs text-charcoal/50">
-                  <span className="text-red-700">*</span> Required fields
+                  <span className="text-red-700"></span> 
                 </p>
               </div>
             </Reveal>

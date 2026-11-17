@@ -6,6 +6,7 @@ export type PortfolioCategory =
   | 'birthdays'
   | 'debut'
   | 'graduations'
+  | 'aerial'
   | 'other'
 
 export const portfolioCategories: { id: 'all' | PortfolioCategory; label: string }[] = [
@@ -15,6 +16,7 @@ export const portfolioCategories: { id: 'all' | PortfolioCategory; label: string
   { id: 'birthdays', label: 'Birthdays' },
   { id: 'debut', label: 'Debut' },
   { id: 'graduations', label: 'Graduations' },
+  { id: 'aerial', label: 'Aerial / Drone' },
   { id: 'other', label: 'Other Events' },
 ]
 
@@ -51,5 +53,7 @@ export const portfolio: PortfolioItem[] = [
   { id: 'd1', type: 'photo', category: 'debut', title: 'An evening to remember', alt: 'Debut celebration (placeholder photo)', src: stock(STOCK.debut[0], 1000), shape: 'landscape' },
   { id: 'd2', type: 'photo', category: 'debut', title: 'Eighteen', alt: 'Debut portrait (placeholder photo)', src: stock(STOCK.debut[1], 1000), shape: 'tall' },
   { id: 'g1', type: 'photo', category: 'graduations', title: 'Graduation day', alt: 'Graduation (placeholder photo)', src: stock(STOCK.graduation[0], 1000), shape: 'portrait' },
+  { id: 'a1', type: 'photo', category: 'aerial', title: 'Coastal venue from above', alt: 'Aerial drone view of coastal venue (placeholder photo)', src: stock(STOCK.aerial[0], 1000), shape: 'landscape' },
+  { id: 'a2', type: 'video', category: 'aerial', title: 'Aerial Cinematic Reel', alt: 'Aerial drone highlight film', src: stock(STOCK.aerial[1], 1000), videoSrc: '', shape: 'landscape' },
   { id: 'o1', type: 'photo', category: 'other', title: 'Christening', alt: 'Family celebration (placeholder photo)', src: stock(STOCK.baptism[0], 1000), shape: 'square' },
 ]
