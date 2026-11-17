@@ -51,10 +51,10 @@ export class InquiryNotConfiguredError extends Error {
  *  1) Supabase: VITE_SUPABASE_URL + VITE_SUPABASE_ANON_KEY
  *     Saves each inquiry to the `inquiries` table.
  *
- *  2) Email / JSON endpoint (Formsubmit, Formspree, etc.): VITE_INQUIRY_ENDPOINT
- *     Sends an email notification with all event details.
+ *  2) EmailJS: VITE_EMAILJS_SERVICE_ID + VITE_EMAILJS_TEMPLATE_ID + VITE_EMAILJS_PUBLIC_KEY
+ *     Sends a custom HTML email directly to your Gmail with zero activation steps.
  *
- * Nothing configured → throws InquiryNotConfiguredError and the UI says so honestly.
+ *  3) Optional JSON endpoint: VITE_INQUIRY_ENDPOINT
  */
 export async function submitInquiry(values: InquiryValues): Promise<void> {
   const { website, customBudget, ...v } = values
@@ -70,15 +70,21 @@ export async function submitInquiry(values: InquiryValues): Promise<void> {
   const env = import.meta.env
   const supabaseUrl = env.VITE_SUPABASE_URL as string | undefined
   const supabaseKey = env.VITE_SUPABASE_ANON_KEY as string | undefined
+  const emailJsService = env.VITE_EMAILJS_SERVICE_ID as string | undefined
+  const emailJsTemplate = env.VITE_EMAILJS_TEMPLATE_ID as string | undefined
+  const emailJsKey = env.VITE_EMAILJS_PUBLIC_KEY as string | undefined
   const endpoint = env.VITE_INQUIRY_ENDPOINT as string | undefined
 
-  if (!(supabaseUrl && supabaseKey) && !endpoint) {
+  const hasSupabase = Boolean(supabaseUrl && supabaseKey)
+  const hasEmailJs = Boolean(emailJsService && emailJsTemplate && emailJsKey)
+
+  if (!hasSupabase && !hasEmailJs && !endpoint) {
     throw new InquiryNotConfiguredError()
   }
 
   const tasks: Promise<void>[] = []
 
-  if (supabaseUrl && supabaseKey) {
+  if (hasSupabase && supabaseUrl && supabaseKey) {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       apikey: supabaseKey,
@@ -108,13 +114,39 @@ export async function submitInquiry(values: InquiryValues): Promise<void> {
     )
   }
 
+  if (hasEmailJs) {
+    tasks.push(
+      fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          service_id: emailJsService,
+          template_id: emailJsTemplate,
+          user_id: emailJsKey,
+          template_params: {
+            fullName: v.fullName,
+            phone: v.phone,
+            email: v.email,
+            eventType: v.eventType,
+            eventDate: v.eventDate,
+            location: v.location,
+            estimatedBudget: finalBudget,
+            preferredCoverage: coverageSummary,
+            message: v.message || 'None',
+          },
+        }),
+      }).then((res) => {
+        if (!res.ok) throw new Error(`EmailJS responded ${res.status}`)
+      }),
+    )
+  }
+
   if (endpoint) {
     tasks.push(
       fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
-          _subject: `New Quote Request: ${v.eventType} — ${v.fullName}`,
           fullName: v.fullName,
           phone: v.phone,
           email: v.email,
@@ -126,7 +158,7 @@ export async function submitInquiry(values: InquiryValues): Promise<void> {
           message: v.message || 'None',
         }),
       }).then((res) => {
-        if (!res.ok) throw new Error(`Email endpoint responded ${res.status}`)
+        if (!res.ok) throw new Error(`Endpoint responded ${res.status}`)
       }),
     )
   }
