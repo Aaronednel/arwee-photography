@@ -8,18 +8,26 @@ export default function About() {
   const { about } = siteConfig
   return (
     <section id="about" className="bg-warm py-24 md:py-32">
-      <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 md:px-10 lg:grid-cols-2 lg:gap-24">
-        <div className="relative overflow-hidden">
-          <SmartImage src={about.image} alt={about.imageAlt} aspect="aspect-[4/5]" className="w-full" sizes="(min-width:1024px) 50vw, 100vw" />
-          {/* Curtain reveal: a warm panel slides away when the image enters the viewport. */}
-          <motion.div
-            aria-hidden
-            className="absolute inset-0 origin-right bg-warm"
-            initial={{ scaleX: 1 }}
-            whileInView={{ scaleX: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 1.3, ease: [0.77, 0, 0.175, 1] }}
-          />
+      <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 md:px-10 lg:grid-cols-2 lg:gap-20">
+        <div className="relative border border-charcoal/10 bg-white p-3 sm:p-4">
+          <div className="relative overflow-hidden">
+            <SmartImage
+              src={about.image}
+              alt={about.imageAlt}
+              aspect="aspect-[4/5]"
+              className="w-full"
+              sizes="(min-width:1024px) 50vw, 100vw"
+            />
+            {/* Curtain reveal: a warm panel slides away when the image enters the viewport. */}
+            <motion.div
+              aria-hidden
+              className="absolute inset-0 origin-right bg-warm"
+              initial={{ scaleX: 1 }}
+              whileInView={{ scaleX: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 1.3, ease: [0.77, 0, 0.175, 1] }}
+            />
+          </div>
         </div>
 
         <div>

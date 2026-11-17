@@ -156,7 +156,7 @@ export default function Quotation() {
 
   return (
     <section id="quotation" className="bg-warm py-24 md:py-32">
-      <div className="mx-auto max-w-5xl px-5 md:px-10">
+      <div className="mx-auto max-w-6xl px-5 md:px-10">
         <SectionHeading
           label="INVESTMENT"
           title="Let's Create Something Special"
@@ -169,196 +169,195 @@ export default function Quotation() {
           </p>
         </Reveal>
 
-        <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-14">
-            {/* 1. Event Selection */}
-            <Reveal>
-              <div className="mb-6 flex items-baseline justify-between gap-4 border-b border-charcoal/10 pb-4">
-                <div>
+        <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-8">
+          {/* Compact 3-Column Quote Configurator (Steps 01 – 03) */}
+          <Reveal>
+            <div className="grid gap-6 lg:grid-cols-3">
+              {/* 1. Event Selection */}
+              <div className="flex flex-col border border-charcoal/10 bg-white p-6">
+                <div className="mb-5 border-b border-charcoal/10 pb-3.5">
                   <p className="eyebrow">Step 01</p>
-                  <h3 className="mt-1 text-2xl md:text-3xl">Select Your Event</h3>
+                  <h3 className="mt-1 text-2xl">Select Your Event</h3>
+                  {err('eventType') && (
+                    <p role="alert" className="mt-2 text-xs text-red-700">
+                      {err('eventType')}
+                    </p>
+                  )}
                 </div>
-                {err('eventType') && (
-                  <p role="alert" className="text-sm text-red-700">
-                    {err('eventType')}
-                  </p>
-                )}
-              </div>
 
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {quotationEventTypes.map((type) => {
-                  const Icon = eventIcons[type]
-                  const active = selectedEvent === type
-                  return (
-                    <button
-                      key={type}
-                      type="button"
-                      onClick={() => setValue('eventType', type, { shouldValidate: true })}
-                      aria-pressed={active}
-                      className={`group flex min-h-20 cursor-pointer items-center justify-between border px-5 py-4 text-left transition-all duration-300 ${
-                        active
-                          ? 'border-charcoal bg-charcoal text-warm'
-                          : 'border-charcoal/15 bg-white text-charcoal hover:border-brown'
-                      }`}
-                    >
-                      <span className="flex items-center gap-3.5">
-                        <Icon
-                          size={20}
-                          strokeWidth={1.35}
-                          className={active ? 'text-brown' : 'text-brown-dark transition-transform duration-300 group-hover:scale-110'}
-                          aria-hidden
-                        />
-                        <span className="font-serif text-xl tracking-wide">{type}</span>
-                      </span>
-                      <span
-                        className={`flex h-5 w-5 items-center justify-center border transition-colors ${
-                          active ? 'border-brown bg-brown text-white' : 'border-charcoal/20'
+                <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-1">
+                  {quotationEventTypes.map((type) => {
+                    const Icon = eventIcons[type]
+                    const active = selectedEvent === type
+                    return (
+                      <button
+                        key={type}
+                        type="button"
+                        onClick={() => setValue('eventType', type, { shouldValidate: true })}
+                        aria-pressed={active}
+                        className={`group flex min-h-12 cursor-pointer items-center justify-between border px-4 py-2.5 text-left transition-all duration-300 ${
+                          active
+                            ? 'border-charcoal bg-charcoal text-warm'
+                            : 'border-charcoal/15 bg-warm/40 text-charcoal hover:border-brown'
                         }`}
-                        aria-hidden
                       >
-                        {active && <Check size={12} strokeWidth={2.5} />}
-                      </span>
-                    </button>
-                  )
-                })}
+                        <span className="flex items-center gap-3">
+                          <Icon
+                            size={17}
+                            strokeWidth={1.35}
+                            className={active ? 'text-brown' : 'text-brown-dark transition-transform duration-300 group-hover:scale-110'}
+                            aria-hidden
+                          />
+                          <span className="font-serif text-lg tracking-wide">{type}</span>
+                        </span>
+                        <span
+                          className={`flex h-4 w-4 shrink-0 items-center justify-center border transition-colors ${
+                            active ? 'border-brown bg-brown text-white' : 'border-charcoal/20'
+                          }`}
+                          aria-hidden
+                        >
+                          {active && <Check size={10} strokeWidth={2.5} />}
+                        </span>
+                      </button>
+                    )
+                  })}
+                </div>
               </div>
-            </Reveal>
 
-            {/* 2. Customer Budget Selection */}
-            <Reveal>
-              <div className="mb-6 flex flex-wrap items-end justify-between gap-4 border-b border-charcoal/10 pb-4">
-                <div>
+              {/* 2. Customer Budget Selection */}
+              <div className="flex flex-col border border-charcoal/10 bg-white p-6">
+                <div className="mb-5 border-b border-charcoal/10 pb-3.5">
                   <p className="eyebrow">Step 02</p>
-                  <h3 className="mt-1 text-2xl md:text-3xl">What's Your Estimated Budget?</h3>
-                  <p className="mt-2 text-sm text-charcoal/65">
+                  <h3 className="mt-1 text-2xl">What's Your Estimated Budget?</h3>
+                  <p className="mt-1.5 text-xs text-charcoal/65">
                     Let us know your preferred budget so we can recommend coverage that suits your needs.
                   </p>
+                  {err('estimatedBudget') && (
+                    <p role="alert" className="mt-2 text-xs text-red-700">
+                      {err('estimatedBudget')}
+                    </p>
+                  )}
                 </div>
-                {err('estimatedBudget') && (
-                  <p role="alert" className="text-sm text-red-700">
-                    {err('estimatedBudget')}
-                  </p>
-                )}
-              </div>
 
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {budgetRanges.map((range) => {
-                  const active = selectedBudget === range
-                  return (
-                    <button
-                      key={range}
-                      type="button"
-                      onClick={() => {
-                        setValue('estimatedBudget', range, { shouldValidate: true })
-                        if (range !== 'Custom Budget') setValue('customBudget', '')
-                      }}
-                      aria-pressed={active}
-                      className={`flex min-h-14 cursor-pointer items-center justify-between border px-5 py-3.5 text-left text-sm font-medium tracking-wide transition-all duration-300 ${
-                        active
-                          ? 'border-charcoal bg-charcoal text-warm'
-                          : 'border-charcoal/15 bg-white text-charcoal hover:border-brown'
-                      }`}
-                    >
-                      <span>{range}</span>
-                      <span
-                        className={`h-2.5 w-2.5 rounded-full border transition-colors ${
-                          active ? 'border-brown bg-brown' : 'border-charcoal/30'
+                <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-1">
+                  {budgetRanges.map((range) => {
+                    const active = selectedBudget === range
+                    return (
+                      <button
+                        key={range}
+                        type="button"
+                        onClick={() => {
+                          setValue('estimatedBudget', range, { shouldValidate: true })
+                          if (range !== 'Custom Budget') setValue('customBudget', '')
+                        }}
+                        aria-pressed={active}
+                        className={`flex min-h-12 cursor-pointer items-center justify-between border px-4 py-2.5 text-left text-sm font-medium tracking-wide transition-all duration-300 ${
+                          active
+                            ? 'border-charcoal bg-charcoal text-warm'
+                            : 'border-charcoal/15 bg-warm/40 text-charcoal hover:border-brown'
                         }`}
-                        aria-hidden
-                      />
-                    </button>
-                  )
-                })}
-              </div>
-
-              <AnimatePresence initial={false}>
-                {selectedBudget === 'Custom Budget' && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                    className="overflow-hidden"
-                  >
-                    <div className="mt-4 max-w-md">
-                      <Field label="Enter Your Custom Budget (PHP)" required htmlFor="customBudget" error={err('customBudget')}>
-                        <input
-                          id="customBudget"
-                          className={fieldClass}
-                          placeholder="e.g. ₱15,000"
-                          {...aria('customBudget')}
-                          {...register('customBudget')}
-                        />
-                      </Field>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              <p className="mt-4 text-xs text-charcoal/55">
-                Note: These are budget preferences to help us tailor a recommendation — not fixed service prices or guaranteed quotations.
-              </p>
-            </Reveal>
-
-            {/* 3. Coverage Preferences */}
-            <Reveal>
-              <div className="mb-6 flex flex-wrap items-end justify-between gap-4 border-b border-charcoal/10 pb-4">
-                <div>
-                  <p className="eyebrow">Step 03</p>
-                  <h3 className="mt-1 text-2xl md:text-3xl">Preferred Coverage</h3>
-                  <p className="mt-2 text-sm text-charcoal/65">Select all services you are interested in.</p>
-                </div>
-                {err('coverage') && (
-                  <p role="alert" className="text-sm text-red-700">
-                    {err('coverage')}
-                  </p>
-                )}
-              </div>
-
-              <div className="grid gap-3 sm:grid-cols-2">
-                {coverageOptions.map((opt) => {
-                  const Icon = coverageIcons[opt.id] ?? Camera
-                  const active = selectedCoverage.includes(opt.label)
-                  return (
-                    <button
-                      key={opt.id}
-                      type="button"
-                      onClick={() => toggleCoverage(opt.label)}
-                      aria-pressed={active}
-                      className={`flex min-h-18 cursor-pointer items-start justify-between gap-4 border px-5 py-4 text-left transition-all duration-300 ${
-                        active
-                          ? 'border-charcoal bg-charcoal text-warm'
-                          : 'border-charcoal/15 bg-white text-charcoal hover:border-brown'
-                      }`}
-                    >
-                      <span className="flex items-start gap-3.5">
-                        <Icon
-                          size={20}
-                          strokeWidth={1.35}
-                          className={`mt-0.5 shrink-0 ${active ? 'text-brown' : 'text-brown-dark'}`}
+                      >
+                        <span>{range}</span>
+                        <span
+                          className={`h-2.5 w-2.5 rounded-full border transition-colors ${
+                            active ? 'border-brown bg-brown' : 'border-charcoal/30'
+                          }`}
                           aria-hidden
                         />
-                        <span>
-                          <span className="block font-serif text-xl leading-snug">{opt.label}</span>
-                          {opt.note && (
-                            <span className={`mt-1 block text-xs ${active ? 'text-warm/70' : 'text-charcoal/55'}`}>
-                              {opt.note}
-                            </span>
-                          )}
-                        </span>
-                      </span>
-                      <span
-                        className={`mt-1 flex h-5 w-5 shrink-0 items-center justify-center border transition-colors ${
-                          active ? 'border-brown bg-brown text-white' : 'border-charcoal/20'
-                        }`}
-                        aria-hidden
-                      >
-                        {active && <Check size={12} strokeWidth={2.5} />}
-                      </span>
-                    </button>
-                  )
-                })}
+                      </button>
+                    )
+                  })}
+                </div>
+
+                <AnimatePresence initial={false}>
+                  {selectedBudget === 'Custom Budget' && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <div className="mt-3">
+                        <Field label="Enter Custom Budget (PHP)" required htmlFor="customBudget" error={err('customBudget')}>
+                          <input
+                            id="customBudget"
+                            className={fieldClass}
+                            placeholder="e.g. ₱15,000"
+                            {...aria('customBudget')}
+                            {...register('customBudget')}
+                          />
+                        </Field>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                <p className="mt-auto pt-4 text-[0.7rem] leading-relaxed text-charcoal/55">
+                  Note: These are budget preferences to help us tailor a recommendation — not fixed service prices or guaranteed quotations.
+                </p>
               </div>
-            </Reveal>
+
+              {/* 3. Coverage Preferences */}
+              <div className="flex flex-col border border-charcoal/10 bg-white p-6">
+                <div className="mb-5 border-b border-charcoal/10 pb-3.5">
+                  <p className="eyebrow">Step 03</p>
+                  <h3 className="mt-1 text-2xl">Preferred Coverage</h3>
+                  <p className="mt-1.5 text-xs text-charcoal/65">Select all services you are interested in.</p>
+                  {err('coverage') && (
+                    <p role="alert" className="mt-2 text-xs text-red-700">
+                      {err('coverage')}
+                    </p>
+                  )}
+                </div>
+
+                <div className="grid gap-2.5">
+                  {coverageOptions.map((opt) => {
+                    const Icon = coverageIcons[opt.id] ?? Camera
+                    const active = selectedCoverage.includes(opt.label)
+                    return (
+                      <button
+                        key={opt.id}
+                        type="button"
+                        onClick={() => toggleCoverage(opt.label)}
+                        aria-pressed={active}
+                        className={`flex min-h-14 cursor-pointer items-start justify-between gap-3 border px-4 py-3 text-left transition-all duration-300 ${
+                          active
+                            ? 'border-charcoal bg-charcoal text-warm'
+                            : 'border-charcoal/15 bg-warm/40 text-charcoal hover:border-brown'
+                        }`}
+                      >
+                        <span className="flex items-start gap-3">
+                          <Icon
+                            size={17}
+                            strokeWidth={1.35}
+                            className={`mt-1 shrink-0 ${active ? 'text-brown' : 'text-brown-dark'}`}
+                            aria-hidden
+                          />
+                          <span>
+                            <span className="block font-serif text-lg leading-snug">{opt.label}</span>
+                            {opt.note && (
+                              <span className={`mt-0.5 block text-[0.7rem] leading-snug ${active ? 'text-warm/70' : 'text-charcoal/55'}`}>
+                                {opt.note}
+                              </span>
+                            )}
+                          </span>
+                        </span>
+                        <span
+                          className={`mt-1 flex h-4 w-4 shrink-0 items-center justify-center border transition-colors ${
+                            active ? 'border-brown bg-brown text-white' : 'border-charcoal/20'
+                          }`}
+                          aria-hidden
+                        >
+                          {active && <Check size={10} strokeWidth={2.5} />}
+                        </span>
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+            </div>
+          </Reveal>
 
             {/* 4. Additional Event Information */}
             <Reveal>
