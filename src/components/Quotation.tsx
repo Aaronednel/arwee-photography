@@ -391,14 +391,14 @@ export default function Quotation() {
                     required
                     htmlFor="phone"
                     error={err('phone')}
-                    hint="You can add 2 numbers in case (e.g. 0917 000 0000 / 0918 000 0000)"
+                    hint="You can add 2 numbers in case"
                   >
                     <input
                       id="phone"
                       type="text"
                       autoComplete="tel"
                       className={fieldClass}
-                      placeholder="+63 900 000 0000 / 0900 000 0000"
+                      placeholder="+63 900 000 0000"
                       {...aria('phone')}
                       {...register('phone')}
                     />
