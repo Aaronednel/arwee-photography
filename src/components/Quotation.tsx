@@ -141,6 +141,9 @@ export default function Quotation() {
       await submitInquiry(values)
       setStatus('success')
       reset()
+      requestAnimationFrame(() => {
+        document.getElementById('quotation')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      })
     } catch (e) {
       setStatus(e instanceof InquiryNotConfiguredError ? 'unconfigured' : 'error')
     }
