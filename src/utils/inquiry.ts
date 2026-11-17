@@ -7,7 +7,15 @@ export const inquirySchema = z
       .string()
       .trim()
       .min(1, 'Contact number is required.')
-      .regex(/^[+()\-\s\d]{7,20}$/, 'Please enter a valid contact number.'),
+      .max(100, 'Contact number is too long (max 100 characters).')
+      .refine(
+        (val) => /^[\w\s+()\-,/|.:]+$/.test(val),
+        'Please enter valid contact digits and separators (e.g. 0917 000 0000 / 0918 000 0000).'
+      )
+      .refine(
+        (val) => (val.match(/\d/g) || []).length >= 7,
+        'Please enter at least one valid contact number with at least 7 digits.'
+      ),
     email: z.string().trim().min(1, 'Email address is required.').pipe(z.email('Please enter a valid email address.')),
     eventType: z.string().trim().min(1, 'Please select an event type.'),
     eventDate: z

@@ -102,7 +102,7 @@ export default function Portfolio() {
             ))}
           </AnimatePresence>
         </div>
-        <p className="mt-10 text-center text-xs tracking-wide text-warm/40">Placeholder photographs shown. Replace in src/data/portfolio.ts.</p>
+        <p className="mt-10 text-center text-xs tracking-wide text-warm/40"></p>
       </div>
 
       <Suspense fallback={null}>

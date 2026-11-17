@@ -59,12 +59,14 @@ function Field({
   required,
   error,
   htmlFor,
+  hint,
   children,
 }: {
   label: string
   required?: boolean
   error?: string
   htmlFor: string
+  hint?: string
   children: ReactNode
 }) {
   return (
@@ -76,6 +78,11 @@ function Field({
         {label} {required && <span className="text-red-700" aria-hidden>*</span>}
       </label>
       {children}
+      {hint && !error && (
+        <p className="mt-1.5 text-xs text-charcoal/50">
+          {hint}
+        </p>
+      )}
       {error && (
         <p id={`${htmlFor}-error`} role="alert" className="mt-1.5 text-sm text-red-700">
           {error}
@@ -379,13 +386,19 @@ export default function Quotation() {
                     />
                   </Field>
 
-                  <Field label="Contact Number" required htmlFor="phone" error={err('phone')}>
+                  <Field
+                    label="Contact Number(s)"
+                    required
+                    htmlFor="phone"
+                    error={err('phone')}
+                    hint="You can add 2 numbers in case (e.g. 0917 000 0000 / 0918 000 0000)"
+                  >
                     <input
                       id="phone"
-                      type="tel"
+                      type="text"
                       autoComplete="tel"
                       className={fieldClass}
-                      placeholder="+63 900 000 0000"
+                      placeholder="+63 900 000 0000 / 0900 000 0000"
                       {...aria('phone')}
                       {...register('phone')}
                     />
