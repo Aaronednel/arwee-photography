@@ -141,9 +141,6 @@ export default function Quotation() {
       await submitInquiry(values)
       setStatus('success')
       reset()
-      requestAnimationFrame(() => {
-        document.getElementById('quotation')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      })
     } catch (e) {
       setStatus(e instanceof InquiryNotConfiguredError ? 'unconfigured' : 'error')
     }
@@ -172,25 +169,7 @@ export default function Quotation() {
           </p>
         </Reveal>
 
-        {status === 'success' ? (
-          <Reveal>
-            <div role="status" className="border border-brown/40 bg-white p-10 text-center md:p-14">
-              <CheckCircle2 className="mx-auto text-brown" size={44} strokeWidth={1.25} />
-              <h3 className="mt-5 text-3xl md:text-4xl">Thank you — quote request received.</h3>
-              <p className="mx-auto mt-4 max-w-lg text-charcoal/70">
-                We've received your event details, coverage preferences, and estimated budget. Our team will prepare a personalized quotation and get back to you soon.
-              </p>
-              <button
-                type="button"
-                onClick={() => setStatus('idle')}
-                className="link-underline mt-8 cursor-pointer text-xs font-medium uppercase tracking-[0.2em] text-brown-dark"
-              >
-                Submit another request
-              </button>
-            </div>
-          </Reveal>
-        ) : (
-          <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-14">
+        <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-14">
             {/* 1. Event Selection */}
             <Reveal>
               <div className="mb-6 flex items-baseline justify-between gap-4 border-b border-charcoal/10 pb-4">
@@ -545,8 +524,52 @@ export default function Quotation() {
               </div>
             </Reveal>
           </form>
-        )}
       </div>
+
+      {/* Animated Confirmation Modal — keeps page scroll position steady */}
+      <AnimatePresence>
+        {status === 'success' && (
+          <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Quote request confirmation"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onClick={() => setStatus('idle')}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-charcoal/75 p-5 backdrop-blur-sm"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96, y: 12 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-lg border border-brown/40 bg-white p-10 text-center shadow-2xl md:p-12"
+            >
+              <motion.div
+                initial={{ scale: 0.5, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.15, type: 'spring', stiffness: 260, damping: 20 }}
+              >
+                <CheckCircle2 className="mx-auto text-brown" size={48} strokeWidth={1.25} />
+              </motion.div>
+              <h3 className="mt-5 text-3xl md:text-4xl">Thank you — quote request received.</h3>
+              <p className="mx-auto mt-4 text-charcoal/70">
+                We've received your event details, coverage preferences, and estimated budget. Our team will prepare a personalized quotation and get back to you soon.
+              </p>
+              <button
+                type="button"
+                onClick={() => setStatus('idle')}
+                className="mt-8 inline-flex min-h-11 cursor-pointer items-center justify-center border border-brown bg-brown px-8 py-3 text-[0.72rem] font-medium uppercase tracking-[0.22em] text-white transition-colors hover:bg-brown-dark"
+              >
+                Done
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }
